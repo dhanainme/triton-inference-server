@@ -50,18 +50,8 @@ directly in an application.
 What's New in 1.14.0
 --------------------
 
-* Support for the new KFServing HTTP/REST, GRPC and corresponding client 
-  libraries is released on GitHub branch r20.06 and as NGC container 20.06-py3.
-
-* Support for the legacy V1 HTTP/REST, GRPC and corresponding client libraries 
-  is released on GitHub branch r20.06-v1 and as NGC container 20.06-v1-py3.
-
-* Migration from Triton V1 to Triton V2 requires signficant changes, see the 
-  “Backwards Compatibility” and “Roadmap” sections of the GitHub README for more
-  information.
-
-* Refer to the 20.06-v1 column of the  Frameworks Support Matrix for container 
-  image versions that the 20.0-v1 inference server container is based on.
+* Support for the new KFServing HTTP/REST, GRPC and corresponding C++ and Python
+  client libraries.
 
 Features
 --------
@@ -135,7 +125,7 @@ Features
 
 .. overview-end-marker-do-not-remove
 
-The current release of the Triton Inference Server is 1.16.0 and
+The current release of the Triton Inference Server is 1.14.0 and
 corresponds to the 20.06 V1 release of the tensorrtserver container on
 `NVIDIA GPU Cloud (NGC) <https://ngc.nvidia.com>`_. The branch for
 this release is `r20.06-v1
