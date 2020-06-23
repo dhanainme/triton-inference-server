@@ -54,21 +54,11 @@ What's New in 2.0.0
 -------------------
 
 * Updates for KFserving HTTP/REST and GRPC protocols and corresponding Python 
-  and C++ client libraries. This release includes support for both the new 
-  KFServing based protocols as well as the legacy V1 protocols.
-
-* Support for the new KFServing HTTP/REST, GRPC and corresponding client 
-  libraries is released on GitHub branch r20.06 and as NGC container 20.06-py3.
-
-* Support for the legacy V1 HTTP/REST, GRPC and corresponding client libraries 
-  is released on GitHub branch r20.06-v1 and as NGC container 20.06-v1-py3.
+  and C++ client libraries.
 
 * Migration from Triton V1 to Triton V2 requires signficant changes, see the 
   “Backwards Compatibility” and “Roadmap” sections of the GitHub README for more
   information.
-
-* Refer to the 20.06 column of the  Frameworks Support Matrix for container 
-  image versions that the 20.06 inference server container is based on.
 
 Features
 --------
@@ -126,8 +116,13 @@ Features
   may reside on a locally accessible file system (e.g. NFS), in Google
   Cloud Storage or in Amazon S3.
 
+* HTTP/REST and GRPC `inference protocols
+  <https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/http_grpc_api.html>`_
+  based on the community developed `KFServing protocol
+  <https://github.com/kubeflow/kfserving/tree/master/docs/predict-api/v2>`_.
+
 * Readiness and liveness `health endpoints
-  <https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/http_grpc_api.html#health>`_
+  <https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/http_grpc_api.html>`_
   suitable for any orchestration or deployment framework, such as
   Kubernetes.
 
@@ -151,9 +146,49 @@ this release is `r20.06
 Backwards Compatibility
 -----------------------
 
-Version 2 of Triton does not generally maintain backwards
-compatibility with version 1. This section will be updated with
-specifics as part of the first release of version 2.
+Version 2 of Triton is beta quality, so you should expect some changes
+to the server and client protocols and APIs. Version 2 of Triton does
+not generally maintain backwards compatibility with
+version 1. Specifically, you should take the following items into
+account when transitioning from version 1 to version 2:
+
+* The Triton executables and libraries are in /opt/tritonserver. The
+  Triton executable is /opt/tritonserver/bin/tritonserver.
+
+* Some *tritonserver* command-line arguments are removed or have
+  different default behavior in version 2.
+
+  * --api-version, --http-health-port, --grpc-infer-thread-count,
+    --grpc-stream-infer-thread-count,--allow-poll-model-repository
+    and --allow-model-control are removed.
+
+  * The default for --model-control-mode is changed to *none*.
+
+* The HTTP/REST and GRPC protocols, while conceptually similar to
+  version 1, are completely changed in version 2. See the `inference
+  protocols
+  <https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/http_grpc_api.html>`_
+  section of the documentation for more information.
+
+* Python and C++ client libraries are re-implemented to match the new
+  HTTP/REST and GRPC protocols. The Python client no longer depends on
+  a C++ shared library and so should be usable on any platform that
+  supports Python. See the `client libraries
+  <https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/client_library.html>`_
+  section of the documentaion for more information.
+
+* The version 2 cmake build requires these changes:
+
+  * The cmake flag names have changed from having a TRTIS prefix to
+    having a TRITON prefix. For example, TRITON_ENABLE_TENSORRT.
+
+  * The build targets are *server*, *client* and *custom-backend* to
+    build the server, client libraries and examples, and custom
+    backend SDK, respectively.
+
+* In the Docker containers the environment variables indicating the
+  Triton version have changed to have a TRITON prefix, for example,
+  TRITON_SERVER_VERSION.
 
 Roadmap
 -------
@@ -202,11 +237,6 @@ invocations of tritonserver executable.
 
 Documentation
 -------------
-
-The documentation is in the process of being updated for version 2. As
-a result, the existing documentation linked below is primarily focused
-on version 1. The documentation will be completely updated for version
-2 as part of the upcoming 20.06 release.
 
 The User Guide, Developer Guide, and API Reference `documentation for
 the current release
